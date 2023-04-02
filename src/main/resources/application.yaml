@@ -26,5 +26,7 @@ indexing-settings:
   sites:
     - url: http://www.playback.ru
       name: PlayBack.Ru
-#    - url: https://www.dimonvideo.ru
-#      name: DimonVideo
+    - url: http://radiomv.ru
+      name: Rariomv.ru
+    - url: https://www.dimonvideo.ru
+      name: DimonVideo
