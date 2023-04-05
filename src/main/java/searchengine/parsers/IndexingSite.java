@@ -8,7 +8,7 @@ import searchengine.dto.statistics.StatisticsIndex;
 import searchengine.dto.statistics.StatisticsLemma;
 import searchengine.dto.statistics.StatisticsPage;
 import searchengine.model.*;
-import searchengine.repositories.SearchIndexRepository;
+import searchengine.repositories.IndexRepository;
 import searchengine.repositories.LemmaRepository;
 import searchengine.repositories.PageRepository;
 import searchengine.repositories.SiteRepository;
@@ -27,7 +27,7 @@ public class IndexingSite implements Runnable {
     private final SiteRepository siteRepository;
     private final LemmaRepository lemmaRepository;
     private static final int CORES_COUNT = Runtime.getRuntime().availableProcessors();
-    private final SearchIndexRepository indexSearchRepository;
+    private final IndexRepository indexSearchRepository;
     private final LemmaInterface lemmaParserInterface;
     private final IndexInterface indexParserInterface;
     private final String url;
@@ -112,12 +112,12 @@ public class IndexingSite implements Runnable {
             SitePage sitePage = siteRepository.findByUrl(url);
             indexParserInterface.run(sitePage);
             List<StatisticsIndex> statisticsIndexDtoList = new CopyOnWriteArrayList<>(indexParserInterface.getIndexList());
-            List<SearchIndex> indexList = new CopyOnWriteArrayList<>();
+            List<Index> indexList = new CopyOnWriteArrayList<>();
             sitePage.setStatusTime(new Date());
             for (StatisticsIndex statisticsIndexDto : statisticsIndexDtoList) {
                 Page page = pageRepository.getById(statisticsIndexDto.getPageID());
                 Lemma lemma = lemmaRepository.getById(statisticsIndexDto.getLemmaID());
-                indexList.add(new SearchIndex(page, lemma, statisticsIndexDto.getRank()));
+                indexList.add(new Index(page, lemma, statisticsIndexDto.getRank()));
             }
             indexSearchRepository.flush();
             indexSearchRepository.saveAll(indexList);

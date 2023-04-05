@@ -5,12 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import searchengine.dto.statistics.StatisticsSearch;
 import searchengine.morphology.MorphologyInterface;
-import searchengine.model.SearchIndex;
+import searchengine.model.Index;
 import searchengine.model.Lemma;
 import searchengine.model.Page;
 import searchengine.model.SitePage;
 import searchengine.parsers.HTMLCleaning;
-import searchengine.repositories.SearchIndexRepository;
+import searchengine.repositories.IndexRepository;
 import searchengine.repositories.LemmaRepository;
 import searchengine.repositories.PageRepository;
 import searchengine.repositories.SiteRepository;
@@ -26,7 +26,7 @@ public class SearchServiceImpl implements SearchService {
     private final MorphologyInterface getLemmaInterface;
     private final LemmaRepository lemmaRepository;
     private final PageRepository pageRepository;
-    private final SearchIndexRepository indexSearchRepository;
+    private final IndexRepository indexSearchRepository;
     private final SiteRepository siteRepository;
 
     @Override
@@ -172,7 +172,7 @@ public class SearchServiceImpl implements SearchService {
         if (lemmaList.size() >= textLemmaList.size()) {
             List<Page> foundPageList = pageRepository.findByLemmaList(lemmaList);
             indexSearchRepository.flush();
-            List<SearchIndex> foundIndexList = indexSearchRepository.findByPagesAndLemmas(lemmaList, foundPageList);
+            List<Index> foundIndexList = indexSearchRepository.findByPagesAndLemmas(lemmaList, foundPageList);
             Hashtable<Page, Float> sortedPageByAbsRelevance = getPageAbsRelevance(foundPageList, foundIndexList);
             List<StatisticsSearch> dataList = getSearchData(sortedPageByAbsRelevance, textLemmaList);
 
@@ -189,11 +189,11 @@ public class SearchServiceImpl implements SearchService {
         } else return result;
     }
 
-    private Hashtable<Page, Float> getPageAbsRelevance(List<Page> pageList, List<SearchIndex> indexList) {
+    private Hashtable<Page, Float> getPageAbsRelevance(List<Page> pageList, List<Index> indexList) {
         HashMap<Page, Float> pageWithRelevance = new HashMap<>();
         for (Page page : pageList) {
             float relevant = 0;
-            for (SearchIndex index : indexList) {
+            for (Index index : indexList) {
                 if (index.getPage() == page) {
                     relevant += index.getRank();
                 }

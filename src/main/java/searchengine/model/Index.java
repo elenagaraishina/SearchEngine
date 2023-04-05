@@ -8,11 +8,11 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "index_search", indexes = {@Index(
+@Table(name = "indexes", indexes = {@javax.persistence.Index(
         name = "page_id_list", columnList = "page_id"),
-        @Index(name = "lemma_id_list", columnList = "lemma_id")})
+        @javax.persistence.Index(name = "lemma_id_list", columnList = "lemma_id")})
 @NoArgsConstructor
-public class SearchIndex implements Serializable {
+public class Index implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -25,10 +25,10 @@ public class SearchIndex implements Serializable {
     @JoinColumn(name = "lemma_id", referencedColumnName = "id")
     private Lemma lemma;
 
-    @Column(nullable = false, name = "index_rank")
+    @Column(nullable = false, name = "rank_index")
     private float rank;
 
-    public SearchIndex(Page page, Lemma lemma, float rank) {
+    public Index(Page page, Lemma lemma, float rank) {
         this.page = page;
         this.lemma = lemma;
         this.rank = rank;

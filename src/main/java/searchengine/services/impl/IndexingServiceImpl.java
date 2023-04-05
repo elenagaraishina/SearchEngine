@@ -10,7 +10,7 @@ import searchengine.model.Status;
 import searchengine.parsers.IndexInterface;
 import searchengine.parsers.IndexingSite;
 import searchengine.parsers.LemmaInterface;
-import searchengine.repositories.SearchIndexRepository;
+import searchengine.repositories.IndexRepository;
 import searchengine.repositories.LemmaRepository;
 import searchengine.repositories.PageRepository;
 import searchengine.repositories.SiteRepository;
@@ -29,7 +29,7 @@ public class IndexingServiceImpl implements IndexingService {
     private final PageRepository pageRepository;
     private final SiteRepository siteRepository;
     private final LemmaRepository lemmaRepository;
-    private final SearchIndexRepository searchIndexRepository;
+    private final IndexRepository searchIndexRepository;
     private final LemmaInterface lemmaParserInterface;
     private final IndexInterface indexParserInterface;
     private final SitesList sitesList;

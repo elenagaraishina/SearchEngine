@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "page", indexes = {@Index(name = "path_list", columnList = "path")})
+@Table(name = "page", indexes = {@javax.persistence.Index(name = "path_list", columnList = "path")})
 @NoArgsConstructor
 public class Page implements Serializable {
 
@@ -28,7 +28,7 @@ public class Page implements Serializable {
     private String content;
 
     @OneToMany(mappedBy = "page", cascade = CascadeType.ALL)
-    private List<SearchIndex> index = new ArrayList<>();
+    private List<Index> index = new ArrayList<>();
 
     public Page(SitePage siteId, String path, int code, String content) {
         this.siteId = siteId;

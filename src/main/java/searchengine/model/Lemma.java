@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "lemma", indexes = {@Index(name = "lemma_list", columnList = "lemma")})
+@Table(name = "lemma", indexes = {@javax.persistence.Index(name = "lemma_list", columnList = "lemma")})
 @NoArgsConstructor
 public class Lemma implements Serializable {
     @Id
@@ -23,7 +23,7 @@ public class Lemma implements Serializable {
     private int frequency;
 
     @OneToMany(mappedBy = "lemma", cascade = CascadeType.ALL)
-    private List<SearchIndex> index = new ArrayList<>();
+    private List<Index> index = new ArrayList<>();
 
     public Lemma(String lemma, int frequency, SitePage sitePageId) {
         this.lemma = lemma;
