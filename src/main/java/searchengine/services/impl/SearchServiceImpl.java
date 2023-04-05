@@ -42,7 +42,7 @@ public class SearchServiceImpl implements SearchService {
         List<StatisticsSearch> searchData = null;
         for (Lemma l : foundLemmaList) {
             if (l.getLemma().equals(searchText)) {
-                searchData = new ArrayList<>(getSearchDtoList(foundLemmaList, textLemmaList, offset, limit));
+                searchData = new ArrayList<>(getSearchList(foundLemmaList, textLemmaList, offset, limit));
                 searchData.sort((o1, o2) -> Float.compare(o2.getRelevance(), o1.getRelevance()));
                 if (searchData.size() > limit) {
                     for (int i = offset; i < limit; i++) {
@@ -69,7 +69,7 @@ public class SearchServiceImpl implements SearchService {
         List<String> textLemmaList = getLemmaFromSearchText(searchText);
         List<Lemma> foundLemmaList = getLemmaListFromSite(textLemmaList, site);
         log.info("Search done. Got results.");
-        return getSearchDtoList(foundLemmaList, textLemmaList, offset, limit);
+        return getSearchList(foundLemmaList, textLemmaList, offset, limit);
     }
 
     private List<String> getLemmaFromSearchText(String searchText) {
@@ -166,7 +166,7 @@ public class SearchServiceImpl implements SearchService {
         return text;
     }
 
-    private List<StatisticsSearch> getSearchDtoList(List<Lemma> lemmaList, List<String> textLemmaList, int offset, int limit) {
+    private List<StatisticsSearch> getSearchList(List<Lemma> lemmaList, List<String> textLemmaList, int offset, int limit) {
         List<StatisticsSearch> result = new ArrayList<>();
         pageRepository.flush();
         if (lemmaList.size() >= textLemmaList.size()) {

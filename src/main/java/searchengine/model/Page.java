@@ -16,7 +16,7 @@ public class Page implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private int id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "site_id", referencedColumnName = "id")
     private SitePage siteId;

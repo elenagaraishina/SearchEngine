@@ -10,7 +10,7 @@ import searchengine.model.SitePage;
 import java.util.List;
 
 @Repository
-public interface LemmaRepository extends JpaRepository<Lemma, Long> {
+public interface LemmaRepository extends JpaRepository<Lemma, Integer> {
     long countBySitePageId(SitePage site);
 
     List<Lemma> findBySitePageId(SitePage siteId);

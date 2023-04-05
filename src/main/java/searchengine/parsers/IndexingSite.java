@@ -33,7 +33,7 @@ public class IndexingSite implements Runnable {
     private final String url;
     private final SitesList sitesList;
 
-    private List<StatisticsPage> getPageEntityDtoList() throws InterruptedException {
+    private List<StatisticsPage> getPageEntityList() throws InterruptedException {
         if (!Thread.interrupted()) {
             String urlFormat = url + "/";
             List<StatisticsPage> statisticsPageDtoVector = new Vector<>();
@@ -53,7 +53,7 @@ public class IndexingSite implements Runnable {
         log.info("Indexing this - " + url + " " + getName());
         saveSiteInDataBase();
         try {
-            List<StatisticsPage> statisticsPageDtoList = getPageEntityDtoList();
+            List<StatisticsPage> statisticsPageDtoList = getPageEntityList();
             saveInBase(statisticsPageDtoList);
             getLemmasPage();
             indexingWords();
@@ -68,7 +68,7 @@ public class IndexingSite implements Runnable {
             SitePage sitePage = siteRepository.findByUrl(url);
             sitePage.setStatusTime(new Date());
             lemmaParserInterface.run(sitePage);
-            List<StatisticsLemma> statisticsLemmaDtoList = lemmaParserInterface.getLemmaDtoList();
+            List<StatisticsLemma> statisticsLemmaDtoList = lemmaParserInterface.getLemmaList();
             List<Lemma> lemmaList = new CopyOnWriteArrayList<>();
             for (StatisticsLemma statisticsLemmaDto : statisticsLemmaDtoList) {
                 lemmaList.add(new Lemma(statisticsLemmaDto.getLemma(), statisticsLemmaDto.getFrequency(), sitePage));
@@ -111,13 +111,13 @@ public class IndexingSite implements Runnable {
         if (!Thread.interrupted()) {
             SitePage sitePage = siteRepository.findByUrl(url);
             indexParserInterface.run(sitePage);
-            List<StatisticsIndex> statisticsIndexDtoList = new CopyOnWriteArrayList<>(indexParserInterface.getIndexList());
+            List<StatisticsIndex> statisticsIndexList = new CopyOnWriteArrayList<>(indexParserInterface.getIndexList());
             List<ModelIndex> indexList = new CopyOnWriteArrayList<>();
             sitePage.setStatusTime(new Date());
-            for (StatisticsIndex statisticsIndexDto : statisticsIndexDtoList) {
-                Page page = pageRepository.getById(statisticsIndexDto.getPageID());
-                Lemma lemma = lemmaRepository.getById(statisticsIndexDto.getLemmaID());
-                indexList.add(new ModelIndex(page, lemma, statisticsIndexDto.getRank()));
+            for (StatisticsIndex statisticsIndex : statisticsIndexList) {
+                Page page = pageRepository.getById(statisticsIndex.getPageID());
+                Lemma lemma = lemmaRepository.getById(statisticsIndex.getLemmaID());
+                indexList.add(new ModelIndex(page, lemma, statisticsIndex.getRank()));
             }
             indexSearchRepository.flush();
             indexSearchRepository.saveAll(indexList);

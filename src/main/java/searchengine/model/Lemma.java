@@ -15,7 +15,7 @@ import java.util.List;
 public class Lemma implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "site_id", referencedColumnName = "id")
     private SitePage sitePageId;

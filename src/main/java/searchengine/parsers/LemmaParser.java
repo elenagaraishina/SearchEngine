@@ -18,11 +18,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class LemmaParser implements LemmaInterface {
     private final PageRepository pageRepository;
     private final MorphologyInterface getLemmaInterface;
-    private List<StatisticsLemma> statisticsLemmaDtoList;
+    private List<StatisticsLemma> statisticsLemmaList;
 
     @Override
     public void run(SitePage site) {
-        statisticsLemmaDtoList = new CopyOnWriteArrayList<>();
+        statisticsLemmaList = new CopyOnWriteArrayList<>();
         Iterable<Page> pageList = pageRepository.findAll();
         TreeMap<String, Integer> lemmasList = new TreeMap<>();
         for (Page page : pageList) {
@@ -41,11 +41,11 @@ public class LemmaParser implements LemmaInterface {
         }
         for (String lemma : lemmasList.keySet()) {
             Integer frequency = lemmasList.get(lemma);
-            statisticsLemmaDtoList.add(new StatisticsLemma(lemma, frequency));
+            statisticsLemmaList.add(new StatisticsLemma(lemma, frequency));
         }
     }
 
-    public List<StatisticsLemma> getLemmaDtoList() {
-        return statisticsLemmaDtoList;
+    public List<StatisticsLemma> getLemmaList() {
+        return statisticsLemmaList;
     }
 }

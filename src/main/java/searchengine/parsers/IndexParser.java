@@ -36,7 +36,7 @@ public class IndexParser implements IndexInterface {
 
         for (Page page : pageList) {
             if (page.getCode() < 400) {
-                long pageId = page.getId();
+                int pageId = page.getId();
                 String pageContent = page.getContent();
                 String title = HTMLCleaning.clear(pageContent, "title");
                 String body = HTMLCleaning.clear(pageContent, "body");
@@ -44,7 +44,7 @@ public class IndexParser implements IndexInterface {
                 HashMap<String, Integer> bodyList = getLemmaInterface.getLemmaList(body);
 
                 for (Lemma lemma : lemmaList) {
-                    Long lemmaId = lemma.getId();
+                    Integer lemmaId = lemma.getId();
                     String theExactLemma = lemma.getLemma();
                     if (titleList.containsKey(theExactLemma) || bodyList.containsKey(theExactLemma)) {
                         float rank = 0.0F;

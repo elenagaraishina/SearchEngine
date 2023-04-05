@@ -13,7 +13,7 @@ import java.util.List;
 public class SitePage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private int id;
 
     @Enumerated(EnumType.STRING)
     private Status status;
