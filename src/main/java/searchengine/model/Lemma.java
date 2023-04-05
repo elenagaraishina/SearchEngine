@@ -23,7 +23,7 @@ public class Lemma implements Serializable {
     private int frequency;
 
     @OneToMany(mappedBy = "lemma", cascade = CascadeType.ALL)
-    private List<Index> index = new ArrayList<>();
+    private List<ModelIndex> index = new ArrayList<>();
 
     public Lemma(String lemma, int frequency, SitePage sitePageId) {
         this.lemma = lemma;

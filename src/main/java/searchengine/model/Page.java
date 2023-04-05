@@ -28,7 +28,7 @@ public class Page implements Serializable {
     private String content;
 
     @OneToMany(mappedBy = "page", cascade = CascadeType.ALL)
-    private List<Index> index = new ArrayList<>();
+    private List<ModelIndex> index = new ArrayList<>();
 
     public Page(SitePage siteId, String path, int code, String content) {
         this.siteId = siteId;

@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import searchengine.dto.statistics.StatisticsSearch;
 import searchengine.morphology.MorphologyInterface;
-import searchengine.model.Index;
+import searchengine.model.ModelIndex;
 import searchengine.model.Lemma;
 import searchengine.model.Page;
 import searchengine.model.SitePage;
@@ -172,7 +172,7 @@ public class SearchServiceImpl implements SearchService {
         if (lemmaList.size() >= textLemmaList.size()) {
             List<Page> foundPageList = pageRepository.findByLemmaList(lemmaList);
             indexSearchRepository.flush();
-            List<Index> foundIndexList = indexSearchRepository.findByPagesAndLemmas(lemmaList, foundPageList);
+            List<ModelIndex> foundIndexList = indexSearchRepository.findByPagesAndLemmas(lemmaList, foundPageList);
             Hashtable<Page, Float> sortedPageByAbsRelevance = getPageAbsRelevance(foundPageList, foundIndexList);
             List<StatisticsSearch> dataList = getSearchData(sortedPageByAbsRelevance, textLemmaList);
 
@@ -189,11 +189,11 @@ public class SearchServiceImpl implements SearchService {
         } else return result;
     }
 
-    private Hashtable<Page, Float> getPageAbsRelevance(List<Page> pageList, List<Index> indexList) {
+    private Hashtable<Page, Float> getPageAbsRelevance(List<Page> pageList, List<ModelIndex> indexList) {
         HashMap<Page, Float> pageWithRelevance = new HashMap<>();
         for (Page page : pageList) {
             float relevant = 0;
-            for (Index index : indexList) {
+            for (ModelIndex index : indexList) {
                 if (index.getPage() == page) {
                     relevant += index.getRank();
                 }

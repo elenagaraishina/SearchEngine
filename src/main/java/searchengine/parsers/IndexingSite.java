@@ -112,12 +112,12 @@ public class IndexingSite implements Runnable {
             SitePage sitePage = siteRepository.findByUrl(url);
             indexParserInterface.run(sitePage);
             List<StatisticsIndex> statisticsIndexDtoList = new CopyOnWriteArrayList<>(indexParserInterface.getIndexList());
-            List<Index> indexList = new CopyOnWriteArrayList<>();
+            List<ModelIndex> indexList = new CopyOnWriteArrayList<>();
             sitePage.setStatusTime(new Date());
             for (StatisticsIndex statisticsIndexDto : statisticsIndexDtoList) {
                 Page page = pageRepository.getById(statisticsIndexDto.getPageID());
                 Lemma lemma = lemmaRepository.getById(statisticsIndexDto.getLemmaID());
-                indexList.add(new Index(page, lemma, statisticsIndexDto.getRank()));
+                indexList.add(new ModelIndex(page, lemma, statisticsIndexDto.getRank()));
             }
             indexSearchRepository.flush();
             indexSearchRepository.saveAll(indexList);
